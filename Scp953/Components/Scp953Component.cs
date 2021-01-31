@@ -1,11 +1,10 @@
-using MEC;
-
 namespace Scp953.Components
 {
     using Exiled.API.Extensions;
     using Exiled.API.Features;
     using Exiled.Events.EventArgs;
     using Interactables.Interobjects.DoorUtils;
+    using MEC;
     using System;
     using UnityEngine;
 
@@ -105,13 +104,13 @@ namespace Scp953.Components
         {
             if (Server.FriendlyFire || ev.Target == null)
                 return;
-            
+
             Player target = Player.Get(ev.Target);
             if (target == null || target != _player) return;
             ev.Shooter.IsFriendlyFireEnabled = true;
             Timing.CallDelayed(0.1f, () => ev.Shooter.IsFriendlyFireEnabled = false);
         }
-        
+
         private void OnShot(ShotEventArgs ev)
         {
             Player target = Player.Get(ev.Target);
