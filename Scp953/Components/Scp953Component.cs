@@ -106,9 +106,7 @@ namespace Scp953.Components
                 return;
 
             Player target = Player.Get(ev.Target);
-            if (target == null || target != _player) return;
-            ev.Shooter.IsFriendlyFireEnabled = true;
-            Timing.CallDelayed(0.1f, () => ev.Shooter.IsFriendlyFireEnabled = false);
+            ev.Shooter.IsFriendlyFireEnabled = !(target == null || target != _player);
         }
 
         private void OnShot(ShotEventArgs ev)
@@ -134,7 +132,6 @@ namespace Scp953.Components
             Exiled.Events.Handlers.Player.Shooting -= OnShooting;
             Exiled.Events.Handlers.Player.Shot -= OnShot;
             Exiled.Events.Handlers.Player.UsingMedicalItem -= OnUsingMedicalItem;
-
             _player.CustomInfo = string.Empty;
             _player.DisableEffect<CustomPlayerEffects.Scp207>();
         }
