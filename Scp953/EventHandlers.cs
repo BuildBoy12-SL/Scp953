@@ -2,6 +2,7 @@ namespace Scp953
 {
     using Components;
     using Exiled.API.Features;
+    using MEC;
     using System;
     using System.Linq;
 
@@ -12,11 +13,25 @@ namespace Scp953
 
         public void OnRoundStart()
         {
-            Random random = new Random();
-            if (random.Next(101) > _config.SpawnChance)
-                return;
+            Timing.CallDelayed(1.5f, () =>
+            {
+                var scps = Player.Get(Team.SCP).ToList();
+                if (scps.Count <= 1)
+                    return;
 
-            Player.Get(Team.SCP).FirstOrDefault()?.GameObject.AddComponent<Scp953Component>();
+                Random random = new Random();
+                if (random.Next(101) > _config.SpawnChance)
+                    return;
+
+                Player player = scps.FirstOrDefault();
+                if (player == null)
+                    return;
+
+                if (Scp953.RemoveClass != null)
+                    Scp953.RemoveClass.Invoke(null, new[] {player});
+
+                player.GameObject.AddComponent<Scp953Component>();
+            });
         }
     }
 }
